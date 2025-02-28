@@ -1,6 +1,8 @@
-import {Modal, TouchableOpacity, StyleSheet, Text, View, StatusBar} from 'react-native';
+import {Modal, TouchableOpacity, StyleSheet, Text, View, StatusBar, Dimensions} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+const width = Dimensions.get('window').width;
 
 const App = () => {
   const [playerVal, setPlayerVal] = useState('');
@@ -203,7 +205,7 @@ const styles = StyleSheet.create({
   btnTxt:{
     padding:8,
     fontSize:25,
-    color:'black',
+    color:'#000000',
   },
   scoreContainer:{
     display:'flex',
@@ -216,11 +218,11 @@ const styles = StyleSheet.create({
     display:'flex',
     alignItems:'center',
     justifyContent:'space-between',
-    width:'40%',
+    width:width * 0.4,
     margin:10,
   },
   scoreTxt:{
-    fontSize:25,
+    fontSize:20,
   },
   scoreSign:{
     marginTop:20,
