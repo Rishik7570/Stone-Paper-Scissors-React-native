@@ -184,6 +184,7 @@ const styles = StyleSheet.create({
     fontSize:30,
     fontWeight:'bold',
     marginBottom:40,
+    textAlign:'center',
   },
   gameContainer:{
     display:'flex',
@@ -199,7 +200,7 @@ const styles = StyleSheet.create({
     marginBottom:40,
   },
   btn:{
-    backgroundColor:'#FBD28B',
+    backgroundColor:'#DFAF2B',
     borderRadius:10,
   },
   btnTxt:{
@@ -245,7 +246,7 @@ const styles = StyleSheet.create({
     backgroundColor:'white',
   },
   winnerTxt:{
-    fontSize:20,
+    fontSize:25,
     fontWeight:'bold',
   },
 });
