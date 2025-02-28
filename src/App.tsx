@@ -1,5 +1,6 @@
-import {Modal, TouchableOpacity, StyleSheet, Text, View} from 'react-native';
+import {Modal, TouchableOpacity, StyleSheet, Text, View, StatusBar} from 'react-native';
 import React, {useEffect, useState} from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const App = () => {
   const [playerVal, setPlayerVal] = useState('');
@@ -8,6 +9,10 @@ const App = () => {
   const [compScore, setCompScore] = useState(0);
   const [showTitle,setShowTitle] = useState(true);
   const [showWinner,setShowWinner] = useState(false);
+
+  const rock = <Icon name="hand-rock-o" size={40} color="black" />;
+  const scissor = <Icon name="hand-scissors-o" size={40} color="black" />;
+  const paper = <Icon name="hand-paper-o"  size={40} color="black" />;
 
   const logic = (playerChoice: string, compChoice: string) => {
     if (playerChoice === compChoice) {
@@ -27,22 +32,23 @@ const App = () => {
     const choices = ['ROCK', 'PAPER', 'SCISSORS'];
     const compChoice = choices[Math.floor(Math.random() * choices.length)];
 
-    console.log('Before updating state:', { playerChoice, compChoice });
-
     setPlayerVal(playerChoice);
     setCompVal(compChoice);
 
-    const value = logic(playerVal, compVal);
+    setTimeout(() => {
+      const value = logic(playerChoice, compChoice);
 
-    console.log('Before updating score:', { value });
+      if (value === 1) {
+        setPlayerScore(prev => prev + 1);
+      } else if (value === -1) {
+        setCompScore(prev => prev + 1);
+      }
+    }, 500);
 
-    if (value === 1) {
-      setPlayerScore(prevScore => prevScore + 1);
-    } else if (value === -1) {
-      setCompScore(prevScore => prevScore + 1);
-    }
-
-    console.log('After updating score:', { playerScore, compScore });
+    setTimeout(()=>{
+      setPlayerVal('');
+      setCompVal('');
+    },1000);
   };
 
   const winnerNotification = () => {
@@ -60,6 +66,36 @@ const App = () => {
     setCompScore(0);
   };
 
+  const playerIconSign = () => {
+    if(playerVal === 'ROCK'){
+      return rock;
+    }
+    else if(playerVal === 'SCISSORS'){
+      return scissor;
+    }
+    else if(playerVal === 'PAPER'){
+      return paper;
+    }
+    else {
+      return;
+    }
+  };
+
+  const compIconSign = () => {
+    if(compVal === 'ROCK'){
+      return rock;
+    }
+    else if(compVal === 'SCISSORS'){
+      return scissor;
+    }
+    else if(compVal === 'PAPER'){
+      return paper;
+    }
+    else {
+      return;
+    }
+  };
+
   useEffect(()=>{
 
     setTimeout(()=>{
@@ -73,11 +109,11 @@ const App = () => {
         reset();
       },3000);
     }
-  },[playerScore,compScore,playerVal,compVal]);
+  },[playerScore,compScore]);
 
   return (
     <View style={styles.container}>
-
+      <StatusBar />
       {/* Game winner screen */}
       <Modal
         animationType="fade"
@@ -114,12 +150,12 @@ const App = () => {
         <View style={styles.scoreContainer}>
           <View style={styles.score}>
             <Text style={styles.scoreTxt}>Your choice</Text>
-            <Text style={styles.scoreTxt}>{playerVal}</Text>
+            <Text style={styles.scoreSign}>{playerVal ? playerIconSign() : ''}</Text>
             <Text style={styles.scoreTxt}>{playerScore}</Text>
           </View>
           <View style={styles.score}>
             <Text style={styles.scoreTxt}>Comp choice</Text>
-            <Text style={styles.scoreTxt}>{compVal}</Text>
+            <Text style={styles.scoreSign}>{compVal ? compIconSign() : ''}</Text>
             <Text style={styles.scoreTxt}>{compScore}</Text>
           </View>
         </View>
@@ -140,7 +176,7 @@ const styles = StyleSheet.create({
     flex:1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor:'#95a5a6',
+    backgroundColor:'#0ABDE3',
   },
   titleTxt: {
     fontSize:30,
@@ -161,32 +197,37 @@ const styles = StyleSheet.create({
     marginBottom:40,
   },
   btn:{
-    backgroundColor:'#0fb9b1',
+    backgroundColor:'#FBD28B',
     borderRadius:10,
   },
   btnTxt:{
     padding:8,
     fontSize:25,
-    color:'white',
+    color:'black',
   },
   scoreContainer:{
     display:'flex',
     flexDirection:'row',
     justifyContent:'space-between',
-    alignItems:'center',
-    backgroundColor:'#3498db',
+    backgroundColor:'#DAE0E2',
+    height:'40%',
   },
   score:{
     display:'flex',
     alignItems:'center',
     justifyContent:'space-between',
-    width:'50%',
-    marginBottom:40,
+    width:'40%',
+    margin:10,
   },
   scoreTxt:{
     fontSize:25,
   },
+  scoreSign:{
+    marginTop:20,
+    marginBottom:20,
+  },
   resetBtn:{
+    marginTop:40,
     backgroundColor:'#eb3b5a',
     borderRadius:10,
   },
